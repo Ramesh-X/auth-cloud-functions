@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 import {Request, Response} from 'express';
 
 if (admin.apps.length === 0) admin.initializeApp();
@@ -49,6 +50,7 @@ const validateToken = async (req: Request, res: Response, next: Function) => {
 
 const app = express();
 app.use(cors({origin: true}));
+app.use(cookieParser());
 app.use(validateToken);
 
 app.post('/', (req: Request, res: Response) => res.send(`Hello, ${req.user?.email}.`));
